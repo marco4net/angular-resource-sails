@@ -290,7 +290,11 @@
 					$log.info('sailsResource calling GET ' + url);
 				}
 
-				socket.get(url, function (response) {
+				socket.get(url, function (response, details) {
+					// Pass through HTTP headers if possible
+					if (details && details.headers) {
+						item.$headers = details.headers;
+					}
 					handleResponse(item, response, action, deferred, function (data) {
 						if (isArray(item)) { // empty the list and update with returned data
 							while (item.length) item.pop();
